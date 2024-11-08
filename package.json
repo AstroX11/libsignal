@@ -1,0 +1,14 @@
+{
+	"name": "libsignal-node",
+	"version": "2.0.1",
+	"description": "Open Whisper Systems' libsignal for Node.js",
+	"repository": "libsignal-node",
+	"main": "index.js",
+	"dependencies": {
+		"curve25519-js": "^0.0.4",
+		"protobufjs": "7.4.0"
+	},
+	"files": [
+		"src/*"
+	]
+}
