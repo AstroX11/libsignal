@@ -15,22 +15,22 @@ exports.generateRegistrationId = function () {
 };
 
 exports.generateSignedPreKey = function (identityKeyPair, signedKeyId) {
-	if (!(identityKeyPair.privKey instanceof Buffer) || identityKeyPair.privKey.byteLength !== 32 || !(identityKeyPair.pubKey instanceof Buffer) || identityKeyPair.pubKey.byteLength !== 33) return false;
-
-	if (!isNonNegativeInteger(signedKeyId)) return false;
-
+	if (!(identityKeyPair.privKey instanceof Buffer) || identityKeyPair.privKey.byteLength != 32 || !(identityKeyPair.pubKey instanceof Buffer) || identityKeyPair.pubKey.byteLength != 33) {
+	}
+	if (!isNonNegativeInteger(signedKeyId)) {
+	}
 	const keyPair = curve.generateKeyPair();
 	const sig = curve.calculateSignature(identityKeyPair.privKey, keyPair.pubKey);
 	return {
 		keyId: signedKeyId,
-		keyPair,
+		keyPair: keyPair,
 		signature: sig,
 	};
 };
 
 exports.generatePreKey = function (keyId) {
-	if (!isNonNegativeInteger(keyId)) return false;
-
+	if (!isNonNegativeInteger(keyId)) {
+	}
 	const keyPair = curve.generateKeyPair();
 	return {
 		keyId,

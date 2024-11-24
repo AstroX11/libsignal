@@ -5,7 +5,11 @@ var VERSION = 0;
 async function iterateHash(data, key, count) {
 	const combined = new Uint8Array(Buffer.concat([data, key])).buffer;
 	const result = crypto.hash(combined);
-	return --count === 0 ? result : iterateHash(result, key, count);
+	if (--count === 0) {
+		return result;
+	} else {
+		return iterateHash(result, key, count);
+	}
 }
 
 function shortToArrayBuffer(number) {
@@ -15,7 +19,9 @@ function shortToArrayBuffer(number) {
 function getEncodedChunk(hash, offset) {
 	var chunk = (hash[offset] * Math.pow(2, 32) + hash[offset + 1] * Math.pow(2, 24) + hash[offset + 2] * Math.pow(2, 16) + hash[offset + 3] * Math.pow(2, 8) + hash[offset + 4]) % 100000;
 	var s = chunk.toString();
-	while (s.length < 5) s = '0' + s;
+	while (s.length < 5) {
+		s = '0' + s;
+	}
 	return s;
 }
 
@@ -32,7 +38,8 @@ exports.FingerprintGenerator = function (iterations) {
 
 exports.FingerprintGenerator.prototype = {
 	createFor: function (localIdentifier, localIdentityKey, remoteIdentifier, remoteIdentityKey) {
-		if (typeof localIdentifier !== 'string' || typeof remoteIdentifier !== 'string' || !(localIdentityKey instanceof ArrayBuffer) || !(remoteIdentityKey instanceof ArrayBuffer)) return false;
+		if (typeof localIdentifier !== 'string' || typeof remoteIdentifier !== 'string' || !(localIdentityKey instanceof ArrayBuffer) || !(remoteIdentityKey instanceof ArrayBuffer)) {
+		}
 
 		return Promise.all([getDisplayStringFor(localIdentifier, localIdentityKey, this.iterations), getDisplayStringFor(remoteIdentifier, remoteIdentityKey, this.iterations)]).then(function (fingerprints) {
 			return fingerprints.sort().join('');
