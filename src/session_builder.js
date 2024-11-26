@@ -42,7 +42,6 @@ class SessionBuilder {
             } else {
                 const openSession = record.getOpenSession();
                 if (openSession) {
-                    console.warn("Closing stale open session for new outgoing prekey bundle");
                     record.closeSession(openSession);
                 }
             }
